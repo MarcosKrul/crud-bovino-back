@@ -10,6 +10,7 @@ import helmet from "helmet";
 import { createConnections } from "typeorm";
 
 import AppError from "./errors/AppError";
+import routes from "./routes/index.routes";
 
 
 createConnections();
@@ -21,6 +22,8 @@ app.use(helmet());
 app.use(cors());
 
 app.use(json());
+
+app.use(routes);
 
 app.use((err: Error, request: Request, response: Response, next: NextFunction) => {
     if (err instanceof AppError) {
