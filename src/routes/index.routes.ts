@@ -1,11 +1,8 @@
 import { Router } from "express";
+import bovinoRoutes from "./bovinos.routes";
 
 const routes = Router();
 
-routes.get('/teste', (req, res) => {
-    return res.status(200).send({
-        message: 'hello'
-    })
-})
+routes.use(bovinoRoutes);
 
 export default routes;
