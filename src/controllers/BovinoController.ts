@@ -4,6 +4,7 @@ import { classToClass } from "class-transformer";
 import {
     GetBovinosService,
     CreateBovinoService,
+    DeleteBovinoService,
     UpdateBovinoService,
 } from "../services/bovinoServices";
 
@@ -108,6 +109,23 @@ class BovinoController {
         }
     }
     
+    public async delete(req: Request, res: Response): Promise<Response> {
+
+        const { id } = req.params;
+
+        try {
+            const deleteBovinoService = new DeleteBovinoService();
+
+            await deleteBovinoService.execute({ id });
+
+            return res.status(200).send();
+        } catch(error) {
+            return res.status(500).send({
+                error: error.message
+            })
+        }
+    }
+
 }
 
 export default BovinoController;
