@@ -8,37 +8,45 @@ interface IParams {
 	brinco?: string;
 }
 
+interface IResponse {
+    list: Bovino[];
+    count: number;
+}
+
 class GetBovinosService {
-  	public async execute({ page, nome, brinco }: IParams): Promise<Bovino[]> {
+  	public async execute({ page, nome, brinco }: IParams): Promise<IResponse> {
 
 		const bovinoRepository: Repository<Bovino> = getRepository(Bovino);
 
 		if (brinco && nome) throw new AppError("Permitido apenas um filtro", 400);
 
 		if (brinco) {
-            const bovinosBrinco = await bovinoRepository.find({
+            const [list, count] = await bovinoRepository.findAndCount({
                 where: { brinco: Like(`%${brinco.toUpperCase()}%`) },
-                take: 15,
-                skip: 15 * page
+                order: { nome: "ASC" },
+                take: 6,
+                skip: 6 * page
             })
-            return bovinosBrinco;
+            return { list, count };
         }
         
         if (nome) {
-            const bovinosNome = await bovinoRepository.find({
+            const [list, count] = await bovinoRepository.findAndCount({
                 where: { nome: ILike(`%${nome.replace('-', ' ')}%`) },
-                take: 15,
-                skip: 15 * page
+                order: { nome: "ASC" },
+                take: 6,
+                skip: 6 * page
             })
-            return bovinosNome;
+            return { list, count };
         }
 
-		const bovinos = await bovinoRepository.find({
-			take: 15,
-			skip: 15 * page
+        const [list, count] = await bovinoRepository.findAndCount({
+            order: { nome: "ASC" },
+			take: 6,
+			skip: 6 * page
 		});
 
-		return bovinos;
+		return { list, count };
   	}
 }
 
