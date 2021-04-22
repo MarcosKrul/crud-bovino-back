@@ -1,11 +1,8 @@
 const situacao = [
-    "seca",
-    "morto",
-    "vendido",
-    "em lactacao",
-    "em lactação",
-    "em lactacão",
-    "em lactaçao"
+    "Seca",
+    "Morto",
+    "Vendido",
+    "Em lactação",
 ]
 
 export default situacao;

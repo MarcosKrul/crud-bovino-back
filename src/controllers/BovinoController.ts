@@ -8,6 +8,9 @@ import {
     UpdateBovinoService,
 } from "../services/bovinoServices";
 
+import racas from "../common/racas";
+import situacao from "../common/situacao";
+
 class BovinoController {
     public async index(req: Request, res: Response): Promise<Response> {
 
@@ -23,6 +26,19 @@ class BovinoController {
             });
 
             return res.status(200).send(classToClass(response));
+        } catch(error) {
+            return res.status(500).send({
+                error: error.message
+            })
+        }
+    }
+
+    public async selects(req: Request, res: Response): Promise<Response> {
+        try {
+            return res.status(200).send({
+                racas,
+                situacoes: situacao
+            });
         } catch(error) {
             return res.status(500).send({
                 error: error.message

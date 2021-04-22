@@ -1,9 +1,8 @@
 const racas = [
-    "gir",
-    "jersey",
-    "holandes",
-    "holandês",
-    "girolando"
+    "Gir",
+    "Jersey",
+    "Holandês",
+    "Girolando"
 ]
 
 export default racas;
