@@ -1,4 +1,4 @@
-import { getRepository, Repository, Like, ILike } from "typeorm";
+import { getRepository, Repository, ILike } from "typeorm";
 import Bovino from "../../models/Bovino";
 import AppError from "../../errors/AppError";
 
@@ -22,7 +22,7 @@ class GetBovinosService {
 
 		if (brinco) {
             const [list, count] = await bovinoRepository.findAndCount({
-                where: { brinco: Like(`%${brinco.toUpperCase()}%`) },
+                where: { brinco: brinco.toUpperCase().replace('-', ' ') },
                 order: { nome: "ASC" },
                 take: 6,
                 skip: 6 * page
