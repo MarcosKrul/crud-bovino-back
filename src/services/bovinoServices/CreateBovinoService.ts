@@ -44,8 +44,8 @@ class CreateBovinoService {
             throw new AppError("Brinco possui mais de 8 caracteres", 400);
 
         if (data.sexo.length > 1 || 
-            data.sexo.toLowerCase() !== 'm' &&
-            data.sexo.toLocaleLowerCase() !== 'f'
+            data.sexo.toUpperCase() !== 'M' &&
+            data.sexo.toUpperCase() !== 'F'
         ) 
             throw new AppError("Sexo incorreto", 400);
         
@@ -59,7 +59,7 @@ class CreateBovinoService {
         if (data.brinco_mae) {
             const hasBovinoMae = await bovinoRepository.findOne({
                 where: {
-                    sexo: 'f',
+                    sexo: 'F',
                     brinco: data.brinco_mae
                 }
             })
@@ -69,7 +69,7 @@ class CreateBovinoService {
         if (data.brinco_pai) {
             const hasBovinoPai = await bovinoRepository.findOne({
                 where: {
-                    sexo: 'm',
+                    sexo: 'M',
                     brinco: data.brinco_pai
                 }
             })
@@ -79,10 +79,10 @@ class CreateBovinoService {
         
         const bovino = bovinoRepository.create({
             nome: data.nome,
-            sexo: data.sexo,
             raca: data.raca,
             situacao: data.situacao,
             nascimento: data.nascimento,
+            sexo: data.sexo.toUpperCase(),
             brinco: data.brinco.toUpperCase(),
             brinco_mae: data.brinco_mae || null,
             brinco_pai: data.brinco_pai || null
