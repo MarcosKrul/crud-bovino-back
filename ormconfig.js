@@ -17,7 +17,11 @@ module.exports = {
         : './dist/models/*.js',
     ],
     
-    migrations: ['./src/database/migrations/*.ts'],
+    migrations: [
+      process.env.APP_ENV === 'development'
+      ? './src/database/migrations/*.ts'
+      : './dist/models/*.js'
+    ],
     
     cli: { migrationsDir: './src/database/migrations' },
 }

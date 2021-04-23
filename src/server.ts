@@ -7,13 +7,13 @@ import express, {
 import cors from "cors";
 import "reflect-metadata";
 import helmet from "helmet";
-import { createConnections } from "typeorm";
+import { createConnection } from "typeorm";
 
 import AppError from "./errors/AppError";
 import routes from "./routes/index.routes";
 
 
-createConnections();
+createConnection();
 
 const app = express();
 
