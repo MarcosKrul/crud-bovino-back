@@ -19,7 +19,11 @@ const app = express();
 
 app.use(helmet());
 
-app.use(cors());
+app.use(cors({
+    origin: process.env.APP_ENV === "development"
+    ? `${process.env.LOCAL_WEB_URL}`
+    : `${process.env.DEPLOY_WEB_URL}`
+}));
 
 app.use(json());
 
