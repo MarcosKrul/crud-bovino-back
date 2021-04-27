@@ -14,13 +14,14 @@ import situacao from "../common/situacao";
 class BovinoController {
     public async index(req: Request, res: Response): Promise<Response> {
 
-        const { page=0, nome, brinco } = req.query;
+        const { page=0, nome, brinco, limite=5 } = req.query;
 
         try {
             const getBovinosService = new GetBovinosService();
 
             const response = await getBovinosService.execute({ 
                 page, 
+                limite,
                 nome: nome?.toString(), 
                 brinco: brinco?.toString()
             });
