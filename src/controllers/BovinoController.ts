@@ -1,5 +1,6 @@
 import { Response, Request } from "express";
 import { classToClass } from "class-transformer";
+import AppError from "../errors/AppError";
 
 import {
     GetBovinosService,
@@ -28,7 +29,9 @@ class BovinoController {
 
             return res.status(200).send(classToClass(response));
         } catch(error) {
-            return res.status(500).send({
+            const code = error instanceof AppError? error.statusCode : 500;
+
+            return res.status(code).send({
                 error: error.message
             })
         }
@@ -41,7 +44,9 @@ class BovinoController {
                 situacoes: situacao
             });
         } catch(error) {
-            return res.status(500).send({
+            const code = error instanceof AppError? error.statusCode : 500;
+
+            return res.status(code).send({
                 error: error.message
             })
         }
@@ -80,7 +85,9 @@ class BovinoController {
 
             return res.status(200).send(response);
         } catch(error) {
-            return res.status(500).send({
+            const code = error instanceof AppError? error.statusCode : 500;
+
+            return res.status(code).send({
                 error: error.message
             })
         }
@@ -120,7 +127,9 @@ class BovinoController {
 
             return res.status(200).send();
         } catch(error) {
-            return res.status(500).send({
+            const code = error instanceof AppError? error.statusCode : 500;
+
+            return res.status(code).send({
                 error: error.message
             })
         }
@@ -137,7 +146,9 @@ class BovinoController {
 
             return res.status(200).send();
         } catch(error) {
-            return res.status(500).send({
+            const code = error instanceof AppError? error.statusCode : 500;
+            
+            return res.status(code).send({
                 error: error.message
             })
         }

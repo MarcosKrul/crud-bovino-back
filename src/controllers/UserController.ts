@@ -1,5 +1,6 @@
 import { Response, Request } from "express";
 import { classToClass } from "class-transformer";
+import AppError from "../errors/AppError";
 
 import {
     ListUsersService,
@@ -17,7 +18,9 @@ class UserController {
 
             return res.status(200).send(classToClass(response));
         } catch(error) {
-            return res.status(500).send({
+            const code = error instanceof AppError? error.statusCode : 500;
+
+            return res.status(code).send({
                 error: error.message
             })
         }
@@ -44,7 +47,9 @@ class UserController {
 
             return res.status(200).send(classToClass(response));
         } catch(error) {
-            return res.status(500).send({
+            const code = error instanceof AppError? error.statusCode : 500;
+
+            return res.status(code).send({
                 error: error.message
             })
         }
