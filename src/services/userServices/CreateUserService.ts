@@ -1,5 +1,6 @@
 import { getRepository, Repository } from "typeorm";
 import { hash } from "bcrypt";
+import { validate } from "email-validator";
 import User from "../../models/User";
 import AppError from "../../errors/AppError";
 
@@ -21,6 +22,8 @@ class CreateUserService {
 
         if(hasUser) throw new AppError("E-mail já cadastrado", 409);
         
+        if (!validate(data.email))
+            throw new AppError("E-mail inválido", 400);
 
         if (data.name.length > 64) 
             throw new AppError("Nome possui mais de 64 caracteres", 400);
