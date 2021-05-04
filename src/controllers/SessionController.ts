@@ -8,6 +8,10 @@ import {
     ForgotPasswdService,
 } from "../services/sessionServices";
 
+import {
+    ThrowResetPasswdMailService,
+} from "../services/mailServices";
+
 class SessionController {
 
     public async login(req: Request, res: Response): Promise<Response> {
@@ -38,12 +42,13 @@ class SessionController {
         
         try {
             const forgotPasswdService = new ForgotPasswdService();
+            const throwMail = new ThrowResetPasswdMailService();
 
-            const response = await forgotPasswdService.execute({
-                email
-            });
+            await forgotPasswdService.execute({ email });
 
-            return res.status(200).send(classToClass(response));
+            await throwMail.execute({ email });
+
+            return res.status(200).send();
         } catch(error) {
             const code = error instanceof AppError? error.statusCode : 500;
 
