@@ -56,7 +56,7 @@ class SessionController {
     public async reset(req: Request, res: Response): Promise<Response> {
         
         const { token } = req.params;
-        const { email, password } = req.body;
+        const { email, password, confirmPassword } = req.body;
         
         try {
             const resetPasswdService = new ResetPasswdService();
@@ -64,7 +64,8 @@ class SessionController {
             await resetPasswdService.execute({
                 token,
                 email,
-                password
+                password,
+                confirmPassword
             });
 
             return res.status(200).send();

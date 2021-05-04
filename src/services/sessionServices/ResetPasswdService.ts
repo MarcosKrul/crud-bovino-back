@@ -8,12 +8,15 @@ interface IParams {
     email: string;
     token: string;
     password: string;
+    confirmPassword: string;
 }
 
 class ResetPasswdService {
-    public async execute({ email, password, token }: IParams): Promise<void> {
+    public async execute({ email, password, token, confirmPassword }: IParams): Promise<void> {
         const usersRepository: Repository<User> = getRepository(User);
         const forgotRepository: Repository<ForgotPasswd> = getRepository(ForgotPasswd);
+
+        if (password !== confirmPassword) throw new AppError("Senha diferentes", 400);
 
         const hasUser = await usersRepository.findOne({
             where: { email }
@@ -25,12 +28,12 @@ class ResetPasswdService {
             where: { user_id: hasUser.id }
         });
 
-        if (!hasRequest) throw new AppError("Usuário não possui acesso à troca", 401);
+        if (!hasRequest) throw new AppError("Usuário não possui acesso", 401);
 
         const now = new Date();
 
         if (now > new Date(hasRequest.expiresIn) || token !== hasRequest.token)
-            throw new AppError("Acesso à troca de senha inválido", 401);
+            throw new AppError("Acesso inválido", 401);
         
 
         await usersRepository.update(hasUser.id, {
