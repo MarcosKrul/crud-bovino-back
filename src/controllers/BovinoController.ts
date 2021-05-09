@@ -7,6 +7,7 @@ import {
     CreateBovinoService,
     DeleteBovinoService,
     UpdateBovinoService,
+    VerifyBovinoService,
 } from "../services/bovinoServices";
 
 import racas from "../common/racas";
@@ -69,6 +70,17 @@ class BovinoController {
         
         try {
             const createBovinoService = new CreateBovinoService();
+            const verifyBovinoService = new VerifyBovinoService();
+            
+            await verifyBovinoService.execute({
+                nome,
+                sexo,
+                raca,
+                brinco,
+                situacao,
+                brinco_mae,
+                brinco_pai,
+            });
 
             const response = await createBovinoService.execute({
                 nome,
@@ -111,6 +123,17 @@ class BovinoController {
 
         try {
             const updateBovinoService = new UpdateBovinoService();
+            const verifyBovinoService = new VerifyBovinoService();
+            
+            await verifyBovinoService.execute({
+                nome,
+                sexo,
+                raca,
+                brinco,
+                situacao,
+                brinco_mae,
+                brinco_pai,
+            });
 
             await updateBovinoService.execute(id, {
                 nome,

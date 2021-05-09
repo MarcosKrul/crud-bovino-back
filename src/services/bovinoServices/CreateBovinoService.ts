@@ -2,8 +2,6 @@ import { getRepository, Repository } from "typeorm";
 import Bovino from "../../models/Bovino";
 import BovinoFemeas from "../../models/BovinoFemeas";
 import AppError from "../../errors/AppError";
-import racas from "../../common/racas";
-import situacao from "../../common/situacao";
 
 interface IParams {
     nome: string;
@@ -36,46 +34,6 @@ class CreateBovinoService {
 
         if(hasBovino) throw new AppError("Brinco já cadastrado", 409);
         
-        
-        if (data.nome.length > 20) 
-            throw new AppError("Nome possui mais de 20 caracteres", 400);
-
-        if (data.brinco.length > 8) 
-            throw new AppError("Brinco possui mais de 8 caracteres", 400);
-
-        if (data.sexo.length > 1 || 
-            data.sexo.toUpperCase() !== 'M' &&
-            data.sexo.toUpperCase() !== 'F'
-        ) 
-            throw new AppError("Sexo incorreto", 400);
-        
-        if (!racas.includes(data.raca)) 
-            throw new AppError("Raça indefinida", 400);
-        
-        if (!situacao.includes(data.situacao)) 
-            throw new AppError("Situação indefinida", 400);
-
-        
-        if (data.brinco_mae) {
-            const hasBovinoMae = await bovinoRepository.findOne({
-                where: {
-                    sexo: 'F',
-                    brinco: data.brinco_mae
-                }
-            })
-            if (!hasBovinoMae) throw new AppError("Bovino mãe não encontrada", 404);
-        }
-
-        if (data.brinco_pai) {
-            const hasBovinoPai = await bovinoRepository.findOne({
-                where: {
-                    sexo: 'M',
-                    brinco: data.brinco_pai
-                }
-            })
-            if (!hasBovinoPai) throw new AppError("Bovino pai não encontrado", 404);
-        }
-
         
         const bovino = bovinoRepository.create({
             nome: data.nome,
