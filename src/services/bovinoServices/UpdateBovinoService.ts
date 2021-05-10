@@ -18,7 +18,7 @@ interface IParams {
 }
 
 class UpdateBovinoService {
-  	public async execute(id: string, data: IParams): Promise<void> {
+  	public async execute(id: string, data: IParams): Promise<Bovino> {
 
 		const bovinoRepository: Repository<Bovino> = getRepository(Bovino);
 
@@ -28,7 +28,8 @@ class UpdateBovinoService {
 
         if (!hasBovino) throw new AppError("Bovino não encontrado", 404);
 
-        await bovinoRepository.update(id, {
+        const updated = await bovinoRepository.save({
+            id,
             nome: data.nome,
             sexo: data.sexo,
             raca: data.raca,
@@ -38,6 +39,8 @@ class UpdateBovinoService {
             brinco_mae: data.brinco_mae || null,
             brinco_pai: data.brinco_pai || null
         });
+
+        return updated;
   	}
 }
 

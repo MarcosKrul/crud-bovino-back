@@ -135,7 +135,7 @@ class BovinoController {
                 brinco_pai,
             });
 
-            await updateBovinoService.execute(id, {
+            const response = await updateBovinoService.execute(id, {
                 nome,
                 sexo,
                 raca,
@@ -148,7 +148,7 @@ class BovinoController {
                 ultimo_parto
             });
 
-            return res.status(200).send();
+            return res.status(200).send(response);
         } catch(error) {
             const code = error instanceof AppError? error.statusCode : 500;
 
