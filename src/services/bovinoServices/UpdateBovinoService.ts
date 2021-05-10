@@ -31,10 +31,10 @@ class UpdateBovinoService {
         const updated = await bovinoRepository.save({
             id,
             nome: data.nome,
-            sexo: data.sexo,
             raca: data.raca,
             situacao: data.situacao,
             nascimento: data.nascimento,
+            sexo: data.sexo.toUpperCase(),
             brinco: data.brinco.toUpperCase(),
             brinco_mae: data.brinco_mae || null,
             brinco_pai: data.brinco_pai || null
